@@ -1,35 +1,31 @@
-// Cargamos variables de entorno
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+
+import dotenv from "dotenv"
 dotenv.config();
 
-// Cargamos librerias
 const DB_CONNECTION: string = process.env.DB_URL as string;
 const DB_NAME: string = process.env.DB_NAME as string;
 
-// Configuración de la conexión
-
+//  Configuración de la conexión:
 const config = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000,
-  dbName: DB_NAME,
+  dbName: DB_NAME, // BBDD a la que tiene que atacar
 };
-
-export const connect = async (): Promise<mongoose.Mongoose | null> => {
+// Nos conectamos a Moongoose
+export const connect = async(): Promise<mongoose.Mongoose | null> => {
   try {
-    const database: typeof mongoose = await mongoose.connect(DB_CONNECTION, config);
+    const database: mongoose.Mongoose = await mongoose.connect(DB_CONNECTION, config);
     const name = database.connection.name;
     const host = database.connection.host;
-    console.log(`Concectando a la base de datos ${name} en el host ${host}`);
-
+    console.log(`Conectado a la base de datos ${name} en el host ${host}`);
     return database;
   } catch (error) {
     console.error(error);
-    console.log("Error en la conexion intentando conectar en 5 seg ...");
+    console.log("Error en la conexión, intentando conectar en 5 segundos");
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     setTimeout(connect, 5000);
-
-    return null;
+    return null
   }
 };
