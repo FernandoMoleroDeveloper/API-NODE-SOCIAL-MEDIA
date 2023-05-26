@@ -1,4 +1,4 @@
-import { Author } from "../models/Author";
+import { User } from "../models/User";
 import { verifyToken } from "../utils/token";
 
 import {
@@ -15,7 +15,7 @@ export const isAuth = async (req: any, res: Response, next: NextFunction): Promi
     }
 
     const decodedInfo = verifyToken(token);
-    const user = await Author.findOne({ email: decodedInfo.email }).select("+password");
+    const user = await User.findOne({ email: decodedInfo.email }).select("+password");
     if (!user) {
       throw new Error("No tienes autorización para realizar esta operación");
     }

@@ -5,23 +5,23 @@ import { Publication } from "../models/Publication";
 const publicationList = [
   {
     creationDate: new Date("2023-05-20T09:30:00"),
-    message: "¡Feliz viernes a todos! Espero que tengan un fin de semana increíble. 🎉😊"
+    message: "¡Feliz viernes a todos! Espero que tengan un fin de semana increíble."
   },
   {
     creationDate: new Date("2023-05-22T15:45:00"),
-    message: "¡Gran noticia! Nuestro nuevo producto ya está disponible en tiendas. ¡Ven y descubre lo que tenemos para ti! 💥🛍️"
+    message: "¡Gran noticia! Nuestro nuevo producto ya está disponible en tiendas."
   },
   {
     creationDate: new Date("2023-05-24T12:00:00"),
-    message: "¡Felicidades a nuestro equipo por alcanzar un hito importante! Su arduo trabajo y dedicación lo hicieron posible. 👏🥳"
+    message: "¡Felicidades a nuestro equipo por alcanzar un hito importante!"
   },
   {
     creationDate: new Date("2023-05-26T10:15:00"),
-    message: "¿Estás listo para una aventura emocionante? ¡Únete a nosotros en nuestro próximo evento y descubre nuevas experiencias! 🌟🎉"
+    message: "¿Estás listo para una aventura emocionante? "
   },
   {
-    creationDate: new Date("2023-05-28T14:30:00"),
-    message: "¡Nuestra promoción especial está en marcha! No te pierdas la oportunidad de obtener grandes descuentos en nuestros productos. ¡Ven y aprovecha esta oferta limitada! 💰✨"
+    creationDate: new Date("2023-05-26T14:30:00"),
+    message: "¡Nuestra promoción especial está en marcha!"
   }
 ];
 

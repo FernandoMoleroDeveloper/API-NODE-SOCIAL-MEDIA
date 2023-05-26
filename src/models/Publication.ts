@@ -19,7 +19,7 @@ const PublicationSchema = new Schema<IPublication>(
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: false
+      required: false,
     },
     creationDate: {
       type: Date,
@@ -31,8 +31,8 @@ const PublicationSchema = new Schema<IPublication>(
       type: String,
       trim: true,
       minLength: [3, "At least three characters for the message"],
-      maxLength: [50, "Message too long, maximum 20 characters"],
-      required: true
+      maxLength: [100, "Message too long, maximum 100 characters"],
+      required: true,
     }
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación

@@ -11,7 +11,7 @@
     "lint:fix": "eslint --fix ./src",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
-    "seed:publications": "node ./src/seeds/publication.seed.ts"
+    "seed:publications": "ts-node ./src/seeds/publication.seed.ts"
   },
   "repository": {
     "type": "git",
