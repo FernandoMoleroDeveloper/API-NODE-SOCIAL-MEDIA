@@ -1,3 +1,3 @@
 # API-NODE-SOCIAL-MEDIA
 
-Trabajar cabrones
+Trabajar duro cabrones
