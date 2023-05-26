@@ -1,5 +1,5 @@
 //  Importamos Mongoose
-import mongoose, { Date, type ObjectId } from "mongoose";
+import mongoose, { type ObjectId } from "mongoose";
 
 // Declaramos nuestro esquema que nos permite declarar nuestros objetos y crearle restricciones.
 const Schema = mongoose.Schema;
@@ -19,7 +19,7 @@ const PublicationSchema = new Schema<IPublication>(
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: false
     },
     creationDate: {
       type: Date,
