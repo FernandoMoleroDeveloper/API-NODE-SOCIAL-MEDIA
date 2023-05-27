@@ -6,8 +6,9 @@ import { checkError } from "./middlewares/error.middleware";
 
 import { friendRouter } from "./routes/friend.routes";
 import { publicationRouter } from "./routes/publication.routes";
+import { userRouter } from "./routes/user.routes";
 
-import { connect } from "./db"
+import { connect } from "./db";
 
 // --------------------------------------------------------------------------------------------
 
@@ -41,7 +42,7 @@ const main = async (): Promise<void> => {
 
   // Asignación de los routers para las diferentes rutas creadas:
   //  Usamos las rutas (el orden es importante más restrictivos a menos):
-
+  app.use("/user", userRouter); //  Le decimos al app que utilice el userRouter importado para gestionar las rutas que tengan "/user".
   app.use("/publication", publicationRouter); //  Le decimos al app que utilice el publicationRouter importado para gestionar las rutas que tengan "/publication".
   app.use("/friend", friendRouter); //  Le decimos al app que utilice el friendRouter importado para gestionar las rutas que tengan "/friend".
   app.use("/", routerHome); //  Decimos al app que utilice el routerHome en la raíz.
