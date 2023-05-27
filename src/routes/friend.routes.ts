@@ -10,6 +10,8 @@ import { resetFriends } from "../utils/resetFriends";
 // import { friendGroups } from "../utils/friendRelations";
 
 import { type Request, type Response, type NextFunction } from "express";
+import { resetGroups } from "../utils/resetGroups";
+import { resetPublications } from "../utils/resetPublications";
 
 // Router propio de book:
 export const friendRouter = express.Router();
@@ -30,7 +32,7 @@ friendRouter.get("/", checkParams, async (req: Request, res: Response, next: Nex
     const page = req.query.page as any;
 
     const friends = await Friend.find() // Devolvemos los friends si funciona. Con modelo.find().
-      .populate(["user"])
+      .populate(["sender", "receiver"])
       .limit(limit) // La función limit se ejecuta sobre el .find() y le dice que coga un número limitado de elementos, coge desde el inicio a no ser que le añadamos...
       .skip((page - 1) * limit); // La función skip() se ejecuta sobre el .find() y se salta un número determinado de elementos y con este cálculo podemos paginar en función del limit.
 
@@ -66,35 +68,11 @@ friendRouter.get("/:id", async (req: Request, res: Response, next: NextFunction)
   // Si funciona la lectura...
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
-    const friend = await Friend.findById(id).populate(["user"]); //  Buscamos un friend con un id determinado dentro de nuestro modelo con modelo.findById(id a buscar).
+    const friend = await Friend.findById(id).populate(["sender", "receiver"]); //  Buscamos un friend con un id determinado dentro de nuestro modelo con modelo.findById(id a buscar).
     if (friend) {
       res.json(friend); //  Si existe el friend lo mandamos como respuesta en modo json.
     } else {
       res.status(404).json({}); //    Si no existe el friend se manda un json vacio y un código 400.
-    }
-
-    // Si falla la lectura...
-  } catch (error) {
-    next(error);
-  }
-});
-
-// Ejemplo de REQ:
-// http://localhost:3000/friend/id del friend a buscar
-
-//  ------------------------------------------------------------------------------------------
-
-//  Endpoint para buscar un friend por el title ( modelo.findById({firstName: name})) (CRUD: Operación Custom. No es CRUD):
-
-friendRouter.get("/title/:title", async (req: Request, res: Response, next: NextFunction) => {
-  const title = req.params.title;
-  // Si funciona la lectura...
-  try {
-    const friend = await Friend.find({ title: new RegExp("^" + title.toLowerCase(), "i") }).populate(["user"]); //  Esperamos a que realice una busqueda en la que coincida el texto pasado por query params para la propiedad determinada pasada dentro de un objeto, porqué tenemos que pasar un objeto, sin importar mayusc o minusc.
-    if (friend?.length) {
-      res.json(friend); //  Si existe el friend lo mandamos en la respuesta como un json.
-    } else {
-      res.status(404).json([]); //   Si no existe el friend se manda un json con un array vacio porque la respuesta en caso de haber tenido resultados hubiera sido un array y un mandamos un código 404.
     }
 
     // Si falla la lectura...
@@ -139,9 +117,9 @@ friendRouter.delete("/reset", async (req: Request, res: Response, next: NextFunc
     // Si all es true resetearemos todos los datos de nuestras coleciones y las relaciones entre estas.
     if (all) {
       await resetFriends();
-      // await resetUsers();
-      // await resetPublishers();
-      // await friendGroups();
+      await resetUsers();
+      await resetPublications();
+      await resetGroups();
       res.send("Datos reseteados y Relaciones reestablecidas");
     } else {
       await resetFriends();
