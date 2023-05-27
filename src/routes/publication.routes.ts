@@ -3,6 +3,8 @@ import express from "express";
 import { Publication } from "../models/Publication";
 
 import { checkParams } from "../middlewares/checkParams.middleware";
+import { isAuthForPublications } from "../middlewares/authPublications.middleware";
+import { isAuth } from "../middlewares/auth.middleware";
 
 import { resetPublications } from "../utils/resetPublications";
 
@@ -85,9 +87,15 @@ publicationRouter.get("/:id", async (req: Request, res: Response, next: NextFunc
 
 //  Endpoint para añadir elementos (CRUD: CREATE):
 
-publicationRouter.post("/", async (req: Request, res: Response, next: NextFunction) => {
+publicationRouter.post("/", isAuth, async (req: any, res: Response, next: NextFunction) => {
   // Si funciona la escritura...
   try {
+    const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
+
+    if (req.user.id !== id && req.user.email !== "admin@gmail.com") {
+      return res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
+    }
+
     const publication = new Publication(req.body); //     Un nuevo publication es un nuevo modelo de la BBDD que tiene un Scheme que valida la estructura de esos datos que recoge del body de la petición.
     const createdPublication = await publication.save(); // Esperamos a que guarde el nuevo publication creado en caso de que vaya bien. Con el metodo .save().
     return res.status(201).json(createdPublication); // Devolvemos un código 201 que significa que algo se ha creado y el publication creado en modo json.
@@ -121,10 +129,14 @@ publicationRouter.delete("/reset", async (req: Request, res: Response, next: Nex
 
 //  Endpoint para eliminar publication identificado por id (CRUD: DELETE):
 
-publicationRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+publicationRouter.delete("/:id", isAuthForPublications, async (req: any, res: Response, next: NextFunction) => {
   // Si funciona el borrado...
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
+    if (req.publication.id !== id && req.user.email !== "admin@gmail.com") {
+      return res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
+    }
+
     const publicationDeleted = await Publication.findByIdAndDelete(id); // Esperamos a que nos devuelve la info del publication eliminado que busca y elimina con el metodo findByIdAndDelete(id del publication a eliminar).
     if (publicationDeleted) {
       res.json(publicationDeleted); //  Devolvemos el publication eliminado en caso de que exista con ese id.
@@ -147,10 +159,13 @@ fetch("http://localhost:3000/publication/id del publication a borrar",{"method":
 
 //  Endpoin para actualizar un elemento identificado por id (CRUD: UPDATE):
 
-publicationRouter.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+publicationRouter.put("/:id", isAuthForPublications, async (req: any, res: Response, next: NextFunction) => {
   // Si funciona la actualización...
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
+    if (req.publication.id !== id && req.user.email !== "admin@gmail.com") {
+      return res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
+    }
     const publicationUpdated = await Publication.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }); // Esperamos que devuelva la info del publication actualizado al que tambien hemos pasado un objeto con los campos q tiene que acualizar en la req del body de la petición. {new: true} Le dice que nos mande el publication actualizado no el antiguo. Lo busca y elimina con el metodo findByIdAndDelete(id del publication a eliminar).
     if (publicationUpdated) {
       res.json(publicationUpdated); //  Devolvemos el publication actualizado en caso de que exista con ese id.
