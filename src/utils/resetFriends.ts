@@ -2,7 +2,7 @@ import { Friend } from "../models/Friend";
 import { generateRandom } from "../utils/generateRandom";
 import { User } from "../models/User";
 
-const friendList = [{ date: Date.now }];
+const friendList = [{ date: new Date("2023-05-20T09:30:00") }, { date: new Date("2023-04-12T09:30:00") }, { date: new Date("2023-03-12T09:30:00") }];
 
 //  Función de reseteo de documentos de la colección.
 export const resetFriends = async (): Promise<void> => {

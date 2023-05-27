@@ -4,8 +4,8 @@ import { User } from "../models/User";
 // import { generateRandom } from "./generateRandom";
 
 const groupList = [
-  { name: "Grupo de Fotografía Urbana", createDate: Date.now },
-  { name: "Grupo de Música Pop", createDate: Date.now }
+  { name: "Grupo de Fotografía Urbana", createDate: new Date("2023-04-12T09:30:00") },
+  { name: "Grupo de Música Pop", createDate: new Date("2023-02-11T09:30:00") }
 ];
 //  Función de reseteo de documentos de la colección.
 export const resetGroups = async (): Promise<void> => {
