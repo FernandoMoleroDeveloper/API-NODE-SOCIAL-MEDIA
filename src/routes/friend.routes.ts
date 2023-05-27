@@ -10,8 +10,6 @@ import { resetFriends } from "../utils/resetFriends";
 // import { friendGroups } from "../utils/friendRelations";
 
 import { type Request, type Response, type NextFunction } from "express";
-import { resetGroups } from "../utils/resetGroups";
-import { resetPublications } from "../utils/resetPublications";
 
 // Router propio de book:
 export const friendRouter = express.Router();
@@ -117,9 +115,6 @@ friendRouter.delete("/reset", async (req: Request, res: Response, next: NextFunc
     // Si all es true resetearemos todos los datos de nuestras coleciones y las relaciones entre estas.
     if (all) {
       await resetFriends();
-      await resetUsers();
-      await resetPublications();
-      await resetGroups();
       res.send("Datos reseteados y Relaciones reestablecidas");
     } else {
       await resetFriends();

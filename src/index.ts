@@ -4,9 +4,8 @@ import cors from "cors";
 import { infoReq } from "./middlewares/infoReq.middleware";
 import { checkError } from "./middlewares/error.middleware";
 
-import { bookRouter } from "./routes/book.routes";
-import { authorRouter } from "./routes/author.routes";
-import { publisherRouter } from "./routes/publisher.routes";
+import { friendRouter } from "./routes/friend.routes";
+import { publicationRouter } from "./routes/publication.routes";
 
 import { connect } from "./db"
 
@@ -42,10 +41,9 @@ const main = async (): Promise<void> => {
 
   // Asignación de los routers para las diferentes rutas creadas:
   //  Usamos las rutas (el orden es importante más restrictivos a menos):
-  app.use("/public", express.static("public"));
-  app.use("/publisher", publisherRouter); //  Le decimos al app que utilice el publisherRouter importado para gestionar las rutas que tengan "/publisher".
-  app.use("/author", authorRouter); //  Le decimos al app que utilice el authorRouter importado para gestionar las rutas que tengan "/author".
-  app.use("/book", bookRouter); //  Le decimos al app que utilice el bookRouter importado para gestionar las rutas que tengan "/book".
+
+  app.use("/publication", publicationRouter); //  Le decimos al app que utilice el publicationRouter importado para gestionar las rutas que tengan "/publication".
+  app.use("/friend", friendRouter); //  Le decimos al app que utilice el friendRouter importado para gestionar las rutas que tengan "/friend".
   app.use("/", routerHome); //  Decimos al app que utilice el routerHome en la raíz.
 
   // Middleware de gestión de los Errores.
