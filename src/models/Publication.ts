@@ -4,10 +4,10 @@ import mongoose, { type ObjectId } from "mongoose";
 // Declaramos nuestro esquema que nos permite declarar nuestros objetos y crearle restricciones.
 const Schema = mongoose.Schema;
 
-const rightNow = new Date()
+const rightNow = new Date();
 
 // Interface de Publication
-interface IPublication {
+export interface IPublication {
   owner: ObjectId;
   creationDate: Date;
   message: string;
@@ -33,7 +33,7 @@ const PublicationSchema = new Schema<IPublication>(
       minLength: [3, "At least three characters for the message"],
       maxLength: [100, "Message too long, maximum 100 characters"],
       required: true,
-    }
+    },
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
 );
