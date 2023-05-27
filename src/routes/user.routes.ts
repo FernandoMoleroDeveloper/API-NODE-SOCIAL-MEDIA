@@ -66,7 +66,7 @@ userRouter.get("/:id", isAuth, async (req: any, res: Response, next: NextFunctio
   }
 });
 
-userToFindRouter.get("/firstName/:firstName", checkParams, isAuth, async (req: Request, res: Response, next: NextFunction) => {
+userRouter.get("/firstName/:firstName", checkParams, isAuth, async (req: Request, res: Response, next: NextFunction) => {
   const firstName = req.params.firstName;
 
   try {
