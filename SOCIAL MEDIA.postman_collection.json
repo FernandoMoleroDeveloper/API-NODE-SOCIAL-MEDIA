@@ -1,0 +1,584 @@
+{
+	"info": {
+		"_postman_id": "4f9c8710-cc70-439d-a736-cf1fda8aa76f",
+		"name": "SOCIAL MEDIA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27124395"
+	},
+	"item": [
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Fernando\",\n    \"lastName\": \"Molero\",\n    \"email\": \"acidmindmad@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Eliana\",\n    \"lastName\": \"Salazar\",\n    \"email\": \"elianasalz@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/64561756a7d92cd3dd70e77c",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"64561756a7d92cd3dd70e77c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/64561756a7d92cd3dd70e77c",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"64561756a7d92cd3dd70e77c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/64561756a7d92cd3dd70e77c",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"64561756a7d92cd3dd70e77c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search user by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/name/gabriel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"name",
+								"gabriel"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FRIEND",
+			"item": [
+				{
+					"name": "Get friend",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/friend?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"friend"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create friend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sender\": \"6471e40f03deb9c358d05699\",\n    \"receiver\": \"6471e40f03deb9c358d0569c\"\n   \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/friend",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"friend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update friend",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sender\": \"6471e40f03deb9c358d05699\",\n    \"receiver\": \"6471e40f03deb9c358d0569c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/friend/6471e42092476801662d792a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"friend",
+								"6471e42092476801662d792a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get artist by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/friend/6471e42092476801662d792a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"friend",
+								"6471e42092476801662d792a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete friend by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/artist/6471e42092476801662d792a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"artist",
+								"6471e42092476801662d792a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GROUP",
+			"item": [
+				{
+					"name": "Get group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/group?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"group"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"grupo guay\",\n    \"length\": 287,\n    \"releaseYear\": 1999,\n    \"author\": \"6456233d21d9cfe6c61f1223\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/group",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update group",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Grupito cachondeo\"\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/group/6471e428d82b23a2cb687b6f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"group",
+								"6471e428d82b23a2cb687b6f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get group by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/group/6471e428d82b23a2cb687b6f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"group",
+								"6471e428d82b23a2cb687b6f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete group by ID Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/group/6471e428d82b23a2cb687b6f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"group",
+								"6471e428d82b23a2cb687b6f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUBLICATION",
+			"item": [
+				{
+					"name": "Get publication",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/publication?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"publication"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create publication",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Watch out now\",\n    \"length\": 287,\n    \"releaseYear\": 1999,\n    \"author\": \"6456233d21d9cfe6c61f1223\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/publication",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"publication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update publication",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Eliana\",\n    \"lastName\": \"Salazar\",\n    \"email\": \"elianasalz@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/publication/6471e41858a8238189135eb3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"publication",
+								"6471e41858a8238189135eb3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get publication by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/publication/6456233d21d9cfe6c61f1223",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"publication",
+								"6456233d21d9cfe6c61f1223"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete publication by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/song/6456233d21d9cfe6c61f1223",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"song",
+								"6456233d21d9cfe6c61f1223"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:3000",
+			"type": "string"
+		}
+	]
+}
