@@ -32,7 +32,7 @@ groupRouter.get("/", checkParams, async (req: Request, res: Response, next: Next
     const limit = req.query.limit as any;
     const page = req.query.page as any;
 
-    const groups = await Group.find().populate("admin", "members", "publication") // Devolvemos los groups si funciona. Con modelo.find().
+    const groups = await Group.find().populate("admin", "members")// Devolvemos los groups si funciona. Con modelo.find().
       .limit(limit) // La función limit se ejecuta sobre el .find() y le dice que coga un número limitado de elementos, coge desde el inicio a no ser que le añadamos...
       .skip((page - 1) * limit); // La función skip() se ejecuta sobre el .find() y se salta un número determinado de elementos y con este cálculo podemos paginar en función del limit. // Con populate le indicamos que si recoge un id en la propiedad señalada rellene con los campos de datos que contenga ese id
     //  Creamos una respuesta más completa con info de la API y los datos solicitados por el group:
@@ -67,7 +67,7 @@ groupRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) 
   // Si funciona la lectura...
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
-    const group = await Group.findById(id).populate("owner"); //  Buscamos un documentos con un id determinado dentro de nuestro modelo con modelo.findById(id a buscar).
+    const group = await Group.findById(id).populate("admin", "members"); //  Buscamos un documentos con un id determinado dentro de nuestro modelo con modelo.findById(id a buscar).
     if (group) {
       res.json(group); //  Si existe el group lo mandamos como respuesta en modo json.
     } else {
