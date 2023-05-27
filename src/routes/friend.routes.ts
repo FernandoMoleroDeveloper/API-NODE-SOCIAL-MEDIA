@@ -10,6 +10,7 @@ import { resetFriends } from "../utils/resetFriends";
 // import { friendGroups } from "../utils/friendRelations";
 
 import { type Request, type Response, type NextFunction } from "express";
+import { isAuthForFriends } from "../middlewares/authFriend.middleware";
 
 // Router propio de book:
 export const friendRouter = express.Router();
@@ -130,10 +131,13 @@ friendRouter.delete("/reset", async (req: Request, res: Response, next: NextFunc
 
 //  Endpoint para eliminar friend identificado por id (CRUD: DELETE):
 
-friendRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+friendRouter.delete("/:id", async (req: any, res: Response, next: NextFunction) => {
   // Si funciona el borrado...
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
+    if (req.friend.sender !== id || req.user.email !== "admin@gmail.com") {
+      return res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
+    }
     const friendDeleted = await Friend.findByIdAndDelete(id); // Esperamos a que nos devuelve la info del friend eliminado que busca y elimina con el metodo findByIdAndDelete(id del friend a eliminar).
     if (friendDeleted) {
       res.json(friendDeleted); //  Devolvemos el friend eliminado en caso de que exista con ese id.
@@ -156,10 +160,13 @@ fetch("http://localhost:3000/friend/id del friend a borrar",{"method":"DELETE","
 
 //  Endpoint para actualizar un elemento identificado por id (CRUD: UPDATE):
 
-friendRouter.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+friendRouter.put("/:id", isAuthForFriends, async (req: any, res: Response, next: NextFunction) => {
   // Si funciona la actualización...
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
+    if (req.friend.sender !== id || req.user.email !== "admin@gmail.com") {
+      return res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
+    }
     const friendUpdated = await Friend.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }); // Esperamos que devuelva la info del friend actualizado al que tambien hemos pasado un objeto con los campos q tiene que acualizar en la req del body de la petición. {new: true} Le dice que nos mande el friend actualizado no el antiguo. Lo busca y elimina con el metodo findByIdAndDelete(id del friend a eliminar).
     if (friendUpdated) {
       res.json(friendUpdated); //  Devolvemos el friend actualizado en caso de que exista con ese id.
