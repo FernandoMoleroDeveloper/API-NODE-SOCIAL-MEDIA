@@ -11,6 +11,7 @@ const groupList = [
 export const resetGroups = async (): Promise<void> => {
   try {
     const members = []
+    const publication = []
     await Group.collection.drop(); //  Esperamos a que borre los documentos de la colección group de la BBDD.
     console.log("Borrados grupos");
 
@@ -30,16 +31,20 @@ export const resetGroups = async (): Promise<void> => {
     for (let i = 0; i < documents.length; i++) {
       const document = documents[i];
       const randomUser = users[generateRandom(0, users.length)];
-      const randomPublication = publications[generateRandom(0, publications.length)];
 
       members.push(
         users[generateRandom(0, users.length)],
         users[generateRandom(0, users.length)],
         users[generateRandom(0, users.length)])
 
+      publication.push(
+        publications[generateRandom(0, publications.length)],
+        publications[generateRandom(0, publications.length)],
+        publications[generateRandom(0, publications.length)])
+
       document.admin = randomUser as unknown as any;
-      document.members = members
-      document.publication = randomPublication as unknown as any
+      document.members = members;
+      document.publication = publication;
       const group = document;
       await group.save();
     }
