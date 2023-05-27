@@ -10,7 +10,7 @@ import fs from "fs";
 
 const upload = multer({ dest: "public" });
 
-// Router propio de libros
+// Router propio de users
 export const userRouter = express.Router();
 
 // CRUD: READ
@@ -58,11 +58,11 @@ userRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) =
   }
 });
 
-userRouter.get("/name/:name", async (req: Request, res: Response, next: NextFunction) => {
-  const name = req.params.name;
+userRouter.get("/firstName/:firstName", async (req: Request, res: Response, next: NextFunction) => {
+  const firstName = req.params.firstName;
 
   try {
-    const user = await User.find({ name: new RegExp("^" + name.toLowerCase(), "i") });
+    const user = await User.find({ firstName: new RegExp("^" + firstName.toLowerCase(), "i") });
     if (user?.length) {
       res.json(user);
     } else {
@@ -73,11 +73,9 @@ userRouter.get("/name/:name", async (req: Request, res: Response, next: NextFunc
   }
 });
 
-// LOGIN DE AUTORES
+// Login de users
 userRouter.post("/login", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const email = req.body.email;
-    // const password = req.body.password;
     const { email, password } = req.body;
 
     if (!email || !password) {
