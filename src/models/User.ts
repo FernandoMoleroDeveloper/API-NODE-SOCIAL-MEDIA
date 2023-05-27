@@ -47,6 +47,7 @@ const userSchema = new Schema<IUser>(
         validator: (value: string) => validator.isStrongPassword(value, { minSymbols: 0 }),
         message: "La contraseña debe tener como mínimo 8 caractéres, una mayúscula, una minúscula y un número",
       },
+      select: false,
     },
     birthdate: {
       type: Date,
