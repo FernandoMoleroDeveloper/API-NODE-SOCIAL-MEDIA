@@ -2,6 +2,8 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
+import { type IPublication } from "./Publication";
+import { type IFriend } from "./Friend";
 
 // Declaramos nuestro esquema que nos permite declarar nuestros objetos y crearle restricciones.
 const Schema = mongoose.Schema;
@@ -21,6 +23,8 @@ interface IUser {
   gender: Gender;
   email: string;
   password: string;
+  publications?: IPublication[];
+  friends?: IFriend[];
 }
 
 const userSchema = new Schema<IUser>(

@@ -2,12 +2,12 @@ import { generateToken } from "../utils/token";
 import { isAuth } from "../middlewares/auth.middleware";
 import { checkParams } from "../middlewares/checkParams.middleware";
 import { User } from "../models/User";
-import { Book } from "../models/Book";
+import { Publication } from "../models/Publication";
 import express, { type NextFunction, type Response, type Request } from "express";
-import fs from "fs";
 import bcrypt from "bcrypt";
-import multer from "multer";
-const upload = multer({ dest: "public" });
+// import multer from "multer";
+// const upload = multer({ dest: "public" });
+// import fs from "fs";
 
 // Router propio de libros
 export const userRouter = express.Router();
@@ -42,10 +42,10 @@ userRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) =
 
     if (user) {
       const temporalUser = user.toObject();
-      const includeBooks = req.query.includeBooks === "true";
-      if (includeBooks) {
-        const books = await Book.find({ user: id });
-        temporalUser.books = books;
+      const includePublications = req.query.includePublications === "true";
+      if (includePublications) {
+        const publications = await Publication.find({ user: id });
+        temporalUser.publications = publications;
       }
 
       res.json(temporalUser);
@@ -166,29 +166,29 @@ userRouter.put("/:id", isAuth, async (req: any, res: Response, next: NextFunctio
   }
 });
 
-userRouter.post("/logo-upload", upload.single("logo"), async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // Renombrado de la imagen
-    const originalName = req.file?.originalname as string;
-    const path = req.file?.path as string;
-    const newPath = path + "_" + originalName;
-    fs.renameSync(path, newPath);
+// userRouter.post("/logo-upload", upload.single("logo"), async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     // Renombrado de la imagen
+//     const originalName = req.file?.originalname as string;
+//     const path = req.file?.path as string;
+//     const newPath = path + "_" + originalName;
+//     fs.renameSync(path, newPath);
 
-    // Busqueda de la marca
-    const userId = req.body.userId;
-    const user = await User.findById(userId);
+//     // Busqueda de la marca
+//     const userId = req.body.userId;
+//     const user = await User.findById(userId);
 
-    if (user) {
-      user.profileImage = newPath;
-      await user.save();
-      res.json(user);
+//     if (user) {
+//       user.profileImage = newPath;
+//       await user.save();
+//       res.json(user);
 
-      console.log("Autor modificado correctamente!");
-    } else {
-      fs.unlinkSync(newPath);
-      res.status(404).send("Autor no encontrado");
-    }
-  } catch (error) {
-    next(error);
-  }
-});
+//       console.log("Autor modificado correctamente!");
+//     } else {
+//       fs.unlinkSync(newPath);
+//       res.status(404).send("Autor no encontrado");
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// });
