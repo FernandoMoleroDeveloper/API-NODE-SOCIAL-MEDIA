@@ -3,6 +3,7 @@ import mongoose, { type ObjectId } from "mongoose";
 
 // Declaramos nuestro esquema que nos permite declarar nuestros objetos y crearle restricciones.
 const Schema = mongoose.Schema;
+const rightNow = new Date()
 
 // Interface de Book
 export interface IGroup {
@@ -20,7 +21,7 @@ const bookSchema = new Schema<IGroup>(
     admin: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
     members: { type: [mongoose.Schema.Types.ObjectId], ref: "User", required: false },
     name: { type: String, trim: true, minLength: [3, " Al menos tres letras para el título"], maxLength: [40, "Título demasiado largo, máximo de 20 caracteres"], required: true },
-    createDate: { type: Date, required: true },
+    createDate: { type: Date, required: true, max: [rightNow, "It cannot be later than the current moment"], default: rightNow },
     publication: { type: [mongoose.Schema.Types.ObjectId], ref: "User", required: false },
     modificationDate: { type: Date, required: false },
   },
