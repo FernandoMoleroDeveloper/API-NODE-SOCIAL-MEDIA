@@ -3,7 +3,7 @@ import express from "express";
 import { Group } from "../models/Group";
 
 import { checkParams } from "../middlewares/checkParams.middleware";
-import { isAuthForPublications } from "../middlewares/authPublications.middleware";
+import { isAuthForGroups } from "../middlewares/authGroup.middleware";
 import { isAuth } from "../middlewares/auth.middleware";
 
 import { resetGroups } from "../utils/resetGroups";
@@ -92,11 +92,11 @@ groupRouter.post("/", isAuth, async (req: any, res: Response, next: NextFunction
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
 
-    if (req.user.id !== id && req.user.email !== "admin@gmail.com") {
+    if (req.user.id !== id || req.user.email !== "admin@gmail.com") {
       return res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
     }
 
-    const group = new Group(req.body); //     Un nuevo group es un nuevo modelo de la BBDD que tiene un Scheme que valida la estructura de esos datos que recoge del body de la petición.
+    const group = new Group(req.body, req.admin.id); //     Un nuevo group es un nuevo modelo de la BBDD que tiene un Scheme que valida la estructura de esos datos que recoge del body de la petición.
     const createdGroup = await group.save(); // Esperamos a que guarde el nuevo group creado en caso de que vaya bien. Con el metodo .save().
     return res.status(201).json(createdGroup); // Devolvemos un código 201 que significa que algo se ha creado y el group creado en modo json.
 
@@ -129,11 +129,11 @@ groupRouter.delete("/reset", async (req: Request, res: Response, next: NextFunct
 
 //  Endpoint para eliminar group identificado por id (CRUD: DELETE):
 
-groupRouter.delete("/:id", isAuthForPublications, async (req: any, res: Response, next: NextFunction) => {
+groupRouter.delete("/:id", isAuthForGroups, async (req: any, res: Response, next: NextFunction) => {
   // Si funciona el borrado...
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
-    if (req.group.id !== id && req.user.email !== "admin@gmail.com") {
+    if (req.group.admin !== id || req.user.email !== "admin@gmail.com") {
       return res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
     }
 
@@ -159,11 +159,11 @@ fetch("http://localhost:3000/group/id del group a borrar",{"method":"DELETE","he
 
 //  Endpoin para actualizar un elemento identificado por id (CRUD: UPDATE):
 
-groupRouter.put("/:id", isAuthForPublications, async (req: any, res: Response, next: NextFunction) => {
+groupRouter.put("/:id", isAuthForGroups, async (req: any, res: Response, next: NextFunction) => {
   // Si funciona la actualización...
   try {
     const id = req.params.id; //  Recogemos el id de los parametros de la ruta.
-    if (req.group.id !== id && req.user.email !== "admin@gmail.com") {
+    if (req.group.admin !== id || req.user.email !== "admin@gmail.com") {
       return res.status(401).json({ error: "No tienes autorización para realizar esta operación" });
     }
     const groupUpdated = await Group.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }); // Esperamos que devuelva la info del group actualizado al que tambien hemos pasado un objeto con los campos q tiene que acualizar en la req del body de la petición. {new: true} Le dice que nos mande el group actualizado no el antiguo. Lo busca y elimina con el metodo findByIdAndDelete(id del group a eliminar).
