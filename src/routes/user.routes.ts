@@ -5,9 +5,10 @@ import { User } from "../models/User";
 import { Publication } from "../models/Publication";
 import express, { type NextFunction, type Response, type Request } from "express";
 import bcrypt from "bcrypt";
-// import multer from "multer";
-// const upload = multer({ dest: "public" });
-// import fs from "fs";
+import multer from "multer";
+import fs from "fs";
+
+const upload = multer({ dest: "public" });
 
 // Router propio de libros
 export const userRouter = express.Router();
@@ -166,29 +167,29 @@ userRouter.put("/:id", isAuth, async (req: any, res: Response, next: NextFunctio
   }
 });
 
-// userRouter.post("/logo-upload", upload.single("logo"), async (req: Request, res: Response, next: NextFunction) => {
-//   try {
-//     // Renombrado de la imagen
-//     const originalName = req.file?.originalname as string;
-//     const path = req.file?.path as string;
-//     const newPath = path + "_" + originalName;
-//     fs.renameSync(path, newPath);
+userRouter.post("/logo-upload", upload.single("logo"), async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Renombrado de la imagen
+    const originalName = req.file?.originalname as string;
+    const path = req.file?.path as string;
+    const newPath = path + "_" + originalName;
+    fs.renameSync(path, newPath);
 
-//     // Busqueda de la marca
-//     const userId = req.body.userId;
-//     const user = await User.findById(userId);
+    // Busqueda de la marca
+    const userId = req.body.userId;
+    const user = await User.findById(userId);
 
-//     if (user) {
-//       user.profileImage = newPath;
-//       await user.save();
-//       res.json(user);
+    if (user) {
+      user.profileImage = newPath;
+      await user.save();
+      res.json(user);
 
-//       console.log("Autor modificado correctamente!");
-//     } else {
-//       fs.unlinkSync(newPath);
-//       res.status(404).send("Autor no encontrado");
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+      console.log("Autor modificado correctamente!");
+    } else {
+      fs.unlinkSync(newPath);
+      res.status(404).send("Autor no encontrado");
+    }
+  } catch (error) {
+    next(error);
+  }
+});

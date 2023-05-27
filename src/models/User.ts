@@ -23,6 +23,7 @@ interface IUser {
   gender: Gender;
   email: string;
   password: string;
+  profileImage: string;
   publications?: IPublication[];
   friends?: IFriend[];
 }
