@@ -12,7 +12,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "seed:publications": "ts-node ./src/seeds/publication.seed.ts",
-    "seed:users": "ts-node ./src/seeds/user.seed.ts"
+    "seed:users": "ts-node ./src/seeds/user.seed.ts",
+    "seed:groups": "ts-node ./src/seeds/group.seed.ts",
+    "seed:friends": "ts-node ./src/seeds/friend.seed.ts",
+    "seed:all": "ts-node ./src/seeds/user.seed.ts && ts-node ./src/seeds/publication.seed.ts && ts-node ./src/seeds/friend.seed.ts && ts-node ./src/seeds/group.seed.ts"
   },
   "repository": {
     "type": "git",
