@@ -2,7 +2,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import { type IBook } from "./Book";
 
 // Declaramos nuestro esquema que nos permite declarar nuestros objetos y crearle restricciones.
 const Schema = mongoose.Schema;
@@ -24,46 +23,56 @@ interface IUser {
   password: string;
 }
 
-const authorSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser>(
   {
-    firstName: {
+    email: {
       type: String,
       trim: true,
       unique: true, // indica que no puede haber otra entidad con esta propiedad que tenga el mismo valor.
       validate: {
         validator: (text: string) => validator.isEmail, // Validamos haciendo uso de la librería validator y la función isEmail que incorpora.
-        message: "Email incorrecto"
+        message: "Email incorrecto",
       },
-      required: true
+      required: true,
     },
-    lastName: {
+    password: {
       type: String,
-      trim: true,
-      unique: true,
-      minLength: [8, "La contraseña debe tener al menos 8 caracteres"],
-      select: false, // Indica que no lo deseamos mostrar cuando se realicen las peticiones.
-      required: true
+      required: true,
+      validate: {
+        validator: (value: string) => validator.isStrongPassword(value, { minSymbols: 0 }),
+        message: "La contraseña debe tener como mínimo 8 caractéres, una mayúscula, una minúscula y un número",
+      },
     },
     birthdate: {
       type: Date,
-      required: true
+      required: true,
     },
-    country: { 
-        type: String, 
-        trim: true, 
-        minLength: [3, "Al menos tres letras para el país"], 
-        maxLength: [20, "País demasiado largo, máximo de 20 caracteres"], 
-        enum: AllowedCountries, 
-        uppercase: true, 
-        required: true 
+    gender: {
+      type: String,
+      trim: true,
+      enum: Gender,
+      required: true,
     },
-    image: { type: String, required: false }
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+      minLength: [3, "El nombre debe tener al menos 3 caractéres y máximo 100 caracteres"],
+      maxLength: [100, "El nombre debe tener al menos 3 caractéres y máximo 100 caracteres"],
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+      minLength: [3, "El apellido debe tener al menos 3 caractéres y máximo 100 caracteres"],
+      maxLength: [100, "El apellido debe tener al menos 3 caractéres y máximo 100 caracteres"],
+    },
   },
   { timestamps: true } // Cada vez que se modifique un documento refleja la hora y fecha de modificación
 );
 
 // Cada vez que se guarde un usuario encriptamos la contraseña
-authorSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   try {
     // Si la password estaba encriptada, no la encriptaremos de nuevo.
     if (this.isModified("password")) {
@@ -78,5 +87,5 @@ authorSchema.pre("save", async function (next) {
   }
 });
 
-// Creamos un modelo para que siempre que creamos un author valide contra el Schema que hemos creado para ver si es valido.
-export const User = mongoose.model<IUser>("User", authorSchema);
+// Creamos un modelo para que siempre que creamos un user valide contra el Schema que hemos creado para ver si es valido.
+export const User = mongoose.model<IUser>("User", userSchema);
