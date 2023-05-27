@@ -7,6 +7,7 @@ import express, { type NextFunction, type Response, type Request } from "express
 import bcrypt from "bcrypt";
 import multer from "multer";
 import fs from "fs";
+import { Friend } from "../models/Friend";
 
 const upload = multer({ dest: "public" });
 
@@ -36,29 +37,36 @@ userRouter.get("/", checkParams, async (req: Request, res: Response, next: NextF
 });
 
 // CRUD: READ
-userRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+userRouter.get("/:id", isAuth, async (req: any, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    const user = await User.findById(id).select("+password");
-
-    if (user) {
-      const temporalUser = user.toObject();
-      const includePublications = req.query.includePublications === "true";
-      if (includePublications) {
-        const publications = await Publication.find({ user: id });
-        temporalUser.publications = publications;
+    const userToFind = await User.findById(id);
+    const userFinder = req.user;
+    if (userToFind) {
+      const isFriend: boolean | undefined = userToFind.friends?.some((friend) => friend === userFinder);
+      if (isFriend) {
+        const temporalUser = userToFind.toObject();
+        const includePublications = req.query.includePublications === "true";
+        const includeFriends = req.query.includeFriends === "true";
+        if (includePublications) {
+          const publications = await Publication.find({ userToFind: id });
+          temporalUser.publications = publications;
+        }
+        if (includeFriends) {
+          const publications = await Friend.find({ userToFind: id });
+          temporalUser.friends = publications;
+        }
+        res.json(temporalUser);
+      } else {
+        res.status(404).json({});
       }
-
-      res.json(temporalUser);
-    } else {
-      res.status(404).json({});
     }
   } catch (error) {
     next(error);
   }
 });
 
-userRouter.get("/firstName/:firstName", async (req: Request, res: Response, next: NextFunction) => {
+userToFindRouter.get("/firstName/:firstName", checkParams, isAuth, async (req: Request, res: Response, next: NextFunction) => {
   const firstName = req.params.firstName;
 
   try {
@@ -165,7 +173,7 @@ userRouter.put("/:id", isAuth, async (req: any, res: Response, next: NextFunctio
   }
 });
 
-userRouter.post("/logo-upload", upload.single("logo"), async (req: Request, res: Response, next: NextFunction) => {
+userRouter.post("/logo-upload", isAuth, upload.single("logo"), async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Renombrado de la imagen
     const originalName = req.file?.originalname as string;
